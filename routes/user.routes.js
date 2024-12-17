@@ -1,6 +1,8 @@
+//import express and set up router for user routes
+
 const express = require("express");
 const User = require("../model/user.model");
-
+//router helps in managing the routes for a particular category
 const router = express.Router();
 //destructure the controllers from the controllers file
 const {
@@ -12,7 +14,7 @@ const {
 } = require("../controllers/user.controllers");
 
 
-
+//ever route here would start after /api/users
 
 //post users route
 router.post("/", postRoute);
@@ -39,5 +41,5 @@ router.put("/:id", putID)
 //delete a user
 router.delete("/:id", deleteID)
 
-
+//sending the routes to be used by the server through index.js
 module.exports = router;

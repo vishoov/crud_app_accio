@@ -1,5 +1,7 @@
 const User = require("../model/user.model");
 
+//controllers are the functions that manage the 
+//functionalities of the api
 
 
 

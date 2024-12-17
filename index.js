@@ -33,6 +33,11 @@ app.get("/", (req, res) => {
 
 //these routes are for USER MANAGEMENT from the database
 app.use("/api/users", userRoutes);
+//earlier the routes were here
+//but now based on mvc architecture they are shifted to the routes folder
+//this is good for categorising routes and making sure that we have public routes 
+// and protected routes 
+// properly organised and segregated
 
 
 //port listener
