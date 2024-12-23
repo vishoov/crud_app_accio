@@ -23,16 +23,19 @@ mongoose.connect(DBurl, {
 .then(() => console.log("Database has been Connected!"))
 .catch((err)=> console.log(err));
 
-
+const logRequest= (req, res, next)=>{
+  console.log(`Request made to ${req.url} with method ${req.method} on time ${new Date()}`);
+  next();
+}
 //home route
-app.get("/", (req, res) => {
+app.get("/", logRequest,(req, res) => {
   res.send(
     "<h1>Welcome to the best CRUD API ever</h1><br> <p>This CRUD Api is built using node.js, express and mongoDB</p>"
   );
 });
 
 //these routes are for USER MANAGEMENT from the database
-app.use("/api/users", userRoutes);
+app.use("/api/users", logRequest,userRoutes);
 //earlier the routes were here
 //but now based on mvc architecture they are shifted to the routes folder
 //this is good for categorising routes and making sure that we have public routes 

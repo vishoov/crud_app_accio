@@ -1,4 +1,5 @@
 //import express and set up router for user routes
+const { generateToken } = require("../middleware/auth.js");
 
 const express = require("express");
 const User = require("../model/user.model");
@@ -14,15 +15,37 @@ const {
 } = require("../controllers/user.controllers");
 
 
+
 //ever route here would start after /api/users
 
 //post users route
-router.post("/", postRoute);
+router.post("/signup", postRoute);
 
 
 //get users route
 router.get("/", getRoute);
 
+
+router.post("/login", async(req, res)=>{
+  try{
+    const {username} = req.body;
+    const user = await User.findOne({username:username});
+    if(!user){
+      return res.status(400).json({message:"User not found"});
+    }
+
+
+    const payload = {
+      username: user.username,
+    }
+    const token = await generateToken(payload);
+    res.status(200).json({user:user, token:token});
+  }
+  catch(err){
+    res.status(500).json({message:err});
+  }
+
+})
 
 //dynamic routing
 //querying 

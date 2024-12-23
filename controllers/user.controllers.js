@@ -1,16 +1,25 @@
 const User = require("../model/user.model");
-
+const { jwtAuth, generateToken } = require("../middleware/auth.js");
 //controllers are the functions that manage the 
 //functionalities of the api
 
 
-
+//sign up 
 const postRoute = async (req, res)=>{
     
         try{
             const user = await User.create(req.body);
             console.log(user);
-            res.status(200).json(user);
+
+            const payload = {
+             username: user.username,
+            }
+
+
+            const token = await generateToken(payload);
+            console.log("This is the token ", token)
+            
+            res.status(200).json({user: user, token: token});
         }
         catch(err){
             res.status(500).json({message:err})
