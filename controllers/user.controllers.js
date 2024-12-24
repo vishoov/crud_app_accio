@@ -9,15 +9,16 @@ const postRoute = async (req, res)=>{
     
         try{
             const user = await User.create(req.body);
-            console.log(user);
+            // console.log(user);
 
             const payload = {
              username: user.username,
+            
             }
 
 
             const token = await generateToken(payload);
-            console.log("This is the token ", token)
+            // console.log("This is the token ", token)
             
             res.status(200).json({user: user, token: token});
         }
@@ -83,8 +84,8 @@ const getRoute = async (req, res)=>{
   
   
       //error handing
-      if(!user){
-        return res.status(404).json({message:"User not found"});
+      if(!user && user.comparePassword(req.body.password)){
+        return res.status(404).json({message:"Username or password is incorrect"});
       }
   
       //making sure that the user is deleted by checking the user info
