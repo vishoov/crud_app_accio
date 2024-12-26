@@ -77,6 +77,28 @@ const getRoute = async (req, res)=>{
     }
   };
 
+  const loginRoute= async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username: username });
+  
+      if (!user) {
+        return res.status(400).json({ message: "User doesnt exist" });
+      }
+  
+      //check the password from bcrypt
+      const isPasswordValid = await user.comparePassword(password);
+  
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: "Password incorrect" });
+      }
+  
+   
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
 
   const deleteID= async (req, res)=>{
     try{
@@ -104,5 +126,6 @@ module.exports = {
     getRoute,
     getID, 
     putID,
-    deleteID
+    deleteID,
+    loginRoute
 };

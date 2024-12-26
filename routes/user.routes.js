@@ -11,7 +11,8 @@ const {
   getRoute, 
   getID, 
   putID,
-  deleteID
+  deleteID,
+  loginRoute
 } = require("../controllers/user.controllers");
 
 
@@ -26,32 +27,7 @@ router.post("/signup", postRoute);
 router.get("/", getRoute);
 
 
-router.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
-
-    if (!user) {
-      return res.status(400).json({ message: "User doesnt exist" });
-    }
-
-    //check the password from bcrypt
-    const isPasswordValid = await user.comparePassword(password);
-
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: "Password incorrect" });
-    }
-
-    const payload = {
-      username: user.username,
-      
-    };
-    const token = await generateToken(payload);
-    res.status(200).json({ user: user, token: token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.post("/login", loginRoute);
 
 
 //dynamic routing

@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+require('dotenv').config();
 // mongoose is the driver that helps us to interact with the database and makes sure that the data is properly validated and structured
 const mongoose = require("mongoose");
 const User = require("./model/user.model");
@@ -8,10 +8,9 @@ const userRoutes = require("./routes/user.routes.js");
 // it enables our server to PARSE the json sent by the client
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const DBurl =
-  "mongodb+srv://selmonbhai:ZLVkMulJzttssMcl@cluster0.gec1x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const DBurl = process.env.DB_URL;
 
 
 

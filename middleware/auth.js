@@ -15,7 +15,7 @@ const jwtAuth= async (req, res, next)=>{
         res.status(400).json({message:"Invalid Token"});
     }
 }
-const TOKEN_SECRET="this is a secret bhai"
+const TOKEN_SECRET= process.env.TOKEN_SECRET;
 
 const generateToken = async (payload)=>{
     return jwt.sign(payload, TOKEN_SECRET, {expiresIn:"1h"});
